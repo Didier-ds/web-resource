@@ -1,6 +1,11 @@
 import React from "react";
 import ResourceCard from '../components/ResourceCard';
+import { GET_RESOURCES, useQuery } from '../apollo'
 function Home() {
+    const { loading, error, data } = useQuery(GET_RESOURCES);
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+
     return (
         <div className="">
             <div class="text-center mt-10">
@@ -12,7 +17,7 @@ function Home() {
                 <button class="bg-green-500 ml-2 text-white p-2 px-4 rounded">Search</button>
             </div>
             <div className="grid grid-cols-4 max-w-6xl mx-auto">
-            {[...Array(10)].map((x, i) =>
+            {data.resources.map((x, i) =>
                 <div className="p-4">
                     <ResourceCard key={i} />
                 </div>
